@@ -3,8 +3,9 @@
 #include <WiFiManager.h>
 #include <Arduino.h>
 
-const int FW_VERSION = 1244;
-const char* fwUrlBase = "http://192.168.0.1/fota/";
+const int FW_VERSION = 1245;
+const char* baseURL = "https://raw.githubusercontent.com/emarinizquierdo/testing/master/fota/";
+const char* fingerPrint = "70 94 DE DD E6 C4 69 48 3A 92 70 A1 48 56 78 2D 18 64 E0 B7";
 const int led = 13;
 
 String getMAC()
@@ -18,20 +19,17 @@ String getMAC()
 }
 
 void checkForUpdates() {
-  String mac = getMAC();
-  String fwURL = String( fwUrlBase );
-  fwURL.concat( mac );
+  String fwURL = String( baseURL );
+
   String fwVersionURL = fwURL;
-  fwVersionURL.concat( ".version" );
+  fwVersionURL.concat( "version" );
 
   Serial.println( "Checking for firmware updates." );
-  Serial.print( "MAC address: " );
-  Serial.println( mac );
   Serial.print( "Firmware version URL: " );
   Serial.println( fwVersionURL );
 
   HTTPClient httpClient;
-  httpClient.begin( fwVersionURL );
+  httpClient.begin( fwVersionURL, fingerPrint);
   int httpCode = httpClient.GET();
   if( httpCode == 200 ) {
     String newFWVersion = httpClient.getString();
@@ -47,6 +45,7 @@ void checkForUpdates() {
       Serial.println( "Preparing to update" );
 
       String fwImageURL = fwURL;
+      fwImageURL.concat( newFWVersion );
       fwImageURL.concat( ".bin" );
       t_httpUpdate_return ret = ESPhttpUpdate.update( fwImageURL );
 
@@ -79,10 +78,10 @@ void setup() {
   WiFiManager wifiManager;
  
   // Descomentar para resetear configuración
-  wifiManager.resetSettings();
+  // wifiManager.resetSettings();
  
   // Cremos AP y portal cautivo
-  // wifiManager.autoConnect("ESP8266Temp");
+  wifiManager.autoConnect("ESP8266Temp");
  
   Serial.println("Ya estás conectado");
 
