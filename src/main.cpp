@@ -3,7 +3,7 @@
 #include <WiFiManager.h>
 #include <Arduino.h>
 
-const int FW_VERSION = 1245;
+const int FW_VERSION = 1246;
 const char* baseURL = "https://raw.githubusercontent.com/emarinizquierdo/testing/master/fota/";
 const char* fingerPrint = "70 94 DE DD E6 C4 69 48 3A 92 70 A1 48 56 78 2D 18 64 E0 B7";
 const int led = 13;
@@ -30,6 +30,7 @@ void checkForUpdates() {
 
   HTTPClient httpClient;
   httpClient.begin( fwVersionURL, fingerPrint);
+  httpClient.addHeader("Cache-Control", "no-cache", true, true);
   int httpCode = httpClient.GET();
   if( httpCode == 200 ) {
     String newFWVersion = httpClient.getString();
@@ -47,7 +48,10 @@ void checkForUpdates() {
       String fwImageURL = fwURL;
       fwImageURL.concat( newFWVersion );
       fwImageURL.concat( ".bin" );
-      t_httpUpdate_return ret = ESPhttpUpdate.update( fwImageURL );
+
+      Serial.print( "Firmware URL: " );
+      Serial.println( fwImageURL );
+      t_httpUpdate_return ret = ESPhttpUpdate.update( fwImageURL, "",  fingerPrint );
 
       switch(ret) {
         case HTTP_UPDATE_FAILED:
