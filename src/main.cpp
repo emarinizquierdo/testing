@@ -20,9 +20,11 @@ String getMAC()
 
 void checkForUpdates() {
   String fwURL = String( baseURL );
-
   String fwVersionURL = fwURL;
-  fwVersionURL.concat( "version" );
+  String noCache = String(random(10000));
+
+  fwVersionURL.concat( "version?" );
+  fwVersionURL.concat( noCache );
 
   Serial.println( "Checking for firmware updates." );
   Serial.print( "Firmware version URL: " );
@@ -94,7 +96,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  delay(5000);
+  delay(20000);
   checkForUpdates();
 
 }
