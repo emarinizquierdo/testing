@@ -3,7 +3,7 @@
 #include <WiFiManager.h>
 #include <Arduino.h>
 
-const int FW_VERSION = 1249;
+const int FW_VERSION = 1250;
 const char* baseURL = "https://raw.githubusercontent.com/emarinizquierdo/testing/master/fota/";
 const char* fingerPrint = "70 94 DE DD E6 C4 69 48 3A 92 70 A1 48 56 78 2D 18 64 E0 B7";
 const int led = 13;
@@ -76,6 +76,19 @@ void checkForUpdates() {
   httpClient.end();
 }
 
+const int RED = D2;
+const int GREEN = D4;
+const int BLUE = D5;
+const int GROUND = D3;
+
+//Hot control
+void hot(int value){
+  value = 1023 - value;
+  analogWrite(RED, value);
+  analogWrite(GREEN, 1023);
+  analogWrite(BLUE, 1023);
+}
+
 void setup() {
 
   Serial.begin(115200);
@@ -98,5 +111,7 @@ void loop() {
 
   delay(20000);
   checkForUpdates();
+
+  hot(random(1024));
 
 }
