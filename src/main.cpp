@@ -3,7 +3,7 @@
 #include <WiFiManager.h>
 #include <Arduino.h>
 
-const int FW_VERSION = 1250;
+const int FW_VERSION = 1251;
 const char* baseURL = "https://raw.githubusercontent.com/emarinizquierdo/testing/master/fota/";
 const char* fingerPrint = "70 94 DE DD E6 C4 69 48 3A 92 70 A1 48 56 78 2D 18 64 E0 B7";
 const int led = 13;
@@ -90,6 +90,13 @@ void hot(int value){
 }
 
 void setup() {
+
+  pinMode(RED, OUTPUT);   // LED pin as output.
+  pinMode(GREEN, OUTPUT);   // LED pin as output.
+  pinMode(BLUE, OUTPUT);   // LED pin as output.
+  pinMode(GROUND, OUTPUT);
+
+  digitalWrite(GROUND, HIGH);
 
   Serial.begin(115200);
  
