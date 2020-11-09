@@ -17,5 +17,7 @@ void loop() {
   hot(random(1024));
   delay(10000);
   rain(random(1024));
+  delay(10000);
+  wind(random(1024));
 
 }

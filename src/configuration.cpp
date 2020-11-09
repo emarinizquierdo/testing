@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "light.h"
 
-const int FW_VERSION = 1252;
+const int FW_VERSION = 1253;
 const char* baseURL = "https://raw.githubusercontent.com/emarinizquierdo/testing/master/fota/";
 const char* fingerPrint = "70 94 DE DD E6 C4 69 48 3A 92 70 A1 48 56 78 2D 18 64 E0 B7";
 const int led = 13;
