@@ -1,0 +1,3 @@
+void config();
+
+void checkForUpdates();
